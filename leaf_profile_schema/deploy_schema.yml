@@ -1,0 +1,61 @@
+---
+- name: "PLAY 1: CONFIGURATION ACI FABRIC"
+  hosts: sandboxapic
+  connection: local
+  gather_facts: False
+  vars:
+    apic_info: &apic_info
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+  vars_files:
+    - vars_schema.yml
+
+  tasks:
+
+    - name: CREATING LEAF PROFILE
+      cisco.aci.aci_switch_policy_leaf_profile:
+        <<: *apic_info
+        leaf_profile: "{{ item.name }}"
+        description: 
+        state: present
+      loop: "{{ leaf_prof }}"
+
+    - name: CREATING LEAF SWITCH SELECTOR WITH NODE BLOCK RANGE
+      cisco.aci.aci_switch_leaf_selector:
+        <<: *apic_info
+        leaf_profile: "{{ item.name }}"
+        leaf: "{{ item.swsel }}"
+        leaf_node_blk: "{{ item.node_blk }}"
+        from: "{{ item.id_from }}"
+        to: "{{ item.id_to }}"
+        policy_group: Default_LeafPolGrp
+        state: present
+      loop: "{{ leaf_prof }}"
+
+    - name: CREATING LEAF INTERFACE PROFILE
+      cisco.aci.aci_interface_policy_leaf_profile:
+        <<: *apic_info
+        interface_profile: "{{ item.intprof }}"
+        state: present
+      loop: "{{ leaf_prof }}"
+
+    - name: ASSOCIATING INTERFACE PROFILE TO A LEAF PROFILE
+      cisco.aci.aci_interface_selector_to_switch_policy_leaf_profile:
+        <<: *apic_info
+        leaf_profile: "{{ item.name }}"
+        interface_selector: "{{ item.intprof }}"
+        state: present
+      loop: "{{ leaf_prof }}"
+
+    - name: CREATING VPC GROUP
+      cisco.aci.aci_switch_policy_vpc_protection_group:
+        <<: *apic_info
+        protection_group: "{{ item.vPC_name }}"
+        protection_group_id: "{{ item.id_from }}"
+        switch_1_id: "{{ item.id_from }}"
+        switch_2_id: "{{ item.id_to }}"
+        state: present
+      loop: "{{ leaf_prof }}"
+      when: "'vPC_name' in item"

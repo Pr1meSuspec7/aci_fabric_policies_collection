@@ -1,0 +1,33 @@
+---
+leaf_prof:
+# copy&paste this section and modify node id
+# if vPC policy is not needed comment 'vPC_name' key
+  - { 
+      name: 'Leaf_105_SwProf',
+      id_from: 105,
+      id_to: 105,
+      swsel: 'Leaf_105_SwSel',
+      node_blk: 'node_blk_105',
+      intprof: 'Leaf_105_IntProf'
+    }
+
+  - { 
+      name: 'Leaf_106_SwProf',
+      id_from: 106,
+      id_to: 106,
+      swsel: 'Leaf_106_SwSel',
+      node_blk: 'node_blk_106',
+      intprof: 'Leaf_106_IntProf'
+    }
+
+  - { 
+      name: 'Leaf_105-106_SwProf',
+      id_from: 105,
+      id_to: 106,
+      swsel: 'Leaf_105-106_SwSel',
+      node_blk: 'node_blk_105-106',
+      intprof: 'Leaf_105-106_IntProf',
+      vPC_name: 'Leaf_105-106_vPC'
+    }
+
+#------------------------------------------
