@@ -1,5 +1,5 @@
 ---
-- name: "PLAY 1: CONFIGURATION ACI FABRIC"
+- name: "PLAY: CONFIGURATION LEAF PROFILE AND VPC GROUP"
   hosts: sandboxapic
   connection: local
   gather_facts: False

@@ -1,0 +1,34 @@
+---
+AAEP:
+  - name: Physical_AAEP
+    dom:
+      - name: Physical_Dom
+        type: phys
+        pool: Physical_StaticPool
+        mode: static
+        range_from: 2
+        range_to: 4094
+
+      - name: L3Out_Dom
+        type: l3dom
+        pool: L3Out_StaticPool
+        mode: static
+        range_from: 3800
+        range_to: 3900
+# to add vlan range you can replicate this block
+#      - name: L3Out_Dom
+#        type: l3dom
+#        pool: L3Out_StaticPool
+#        mode: static
+#        range_from: 3901
+#        range_to: 3999
+
+  - name: IBMgmt_AAEP
+    dom: 
+      - name: IBMgmt_Dom
+        type: phys
+        pool: IBMgmt_StaticPool
+        mode: static
+        range_from: 4000
+        range_to: 4000
+

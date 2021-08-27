@@ -1,0 +1,70 @@
+---
+- name: "PLAY: CONFIGURATION INITIAL ACCESS POLICIES"
+  hosts: sandboxapic
+  connection: local
+  gather_facts: False
+  vars:
+    apic_info: &apic_info
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+  vars_files:
+    - vars_schema.yml
+
+  tasks:
+
+    - name: CREATING AAEPs
+      cisco.aci.aci_aep:
+        <<: *apic_info
+        aep: "{{ item.name }}"
+      loop: "{{ AAEP }}"
+
+    - name: CREATING VLAN POOLs
+      cisco.aci.aci_vlan_pool:
+        <<: *apic_info
+        pool: "{{ item.1.pool }}"
+        pool_allocation_mode: "{{ item.1.mode }}"
+      loop: "{{ AAEP | subelements('dom') }}"
+
+    - name: BIND VLAN POOL AND VLAN RANGE
+      cisco.aci.aci_vlan_pool_encap_block:
+        <<: *apic_info
+        pool: "{{ item.1.pool }}"
+        pool_allocation_mode: "{{ item.1.mode }}"
+        block_name: ""
+        block_start: "{{ item.1.range_from }}"
+        block_end: "{{ item.1.range_to }}"
+      loop: "{{ AAEP | subelements('dom') }}"
+
+    - name: BIND DOMAIN TO VLAN POOL
+      cisco.aci.aci_domain_to_vlan_pool:
+        <<: *apic_info
+        domain: "{{ item.1.name }}"
+        domain_type: "{{ item.1.type }}"
+        pool: "{{ item.1.pool }}"
+        pool_allocation_mode: "{{ item.1.mode }}"
+      loop: "{{ AAEP | subelements('dom') }}"
+
+    - name: BIND AAEP TO DOMAIN
+      cisco.aci.aci_aep_to_domain:
+        <<: *apic_info
+        aep: "{{ item.0.name }}"
+        domain: "{{ item.1.name }}"
+        domain_type: "{{ item.1.type }}"
+      loop: "{{ AAEP | subelements('dom') }}"
+
+
+##### example when conditional #####
+#
+#    - name: CREATING VPC GROUP
+#      cisco.aci.aci_switch_policy_vpc_protection_group:
+#        <<: *apic_info
+#        protection_group: "{{ item.vPC_name }}"
+#        protection_group_id: "{{ item.id_from }}"
+#        switch_1_id: "{{ item.id_from }}"
+#        switch_2_id: "{{ item.id_to }}"
+#        state: present
+#      loop: "{{ leaf_prof }}"
+#      when: "'vPC_name' in item"
+#
