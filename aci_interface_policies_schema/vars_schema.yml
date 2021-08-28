@@ -1,0 +1,83 @@
+---
+link_level:
+  - name: 100M_Auto
+    nego: on
+    speed: 100M
+
+  - name: 100M_NoNegotiate
+    nego: off
+    speed: 100M
+
+  - name: 10G_Auto
+    nego: on
+    speed: 10G
+
+  - name: 10G_NoNegotiate
+    nego: off
+    speed: 10G
+
+  - name: 1G_Auto
+    nego: on
+    speed: 1G
+
+  - name: 1G_NoNegotiate
+    nego: off
+    speed: 1G
+
+  - name: 40G_Auto
+    nego: on
+    speed: 40G
+
+  - name: 40G_NoNegotiate
+    nego: off
+    speed: 40G
+
+
+CDP:
+  - name: CDP_On
+    state: on
+
+  - name: CDP_Off
+    state: off
+
+
+LLDP:
+  - name: LLDP_On
+    rx_state: On
+    tx_state: On
+
+  - name: LLDP_Off
+    rx_state: Off
+    tx_state: Off
+
+
+PO:
+  - name: LACP_Active_toNexus
+    mode: active
+    fast: on
+    graceful: on
+    suspend: on
+    symmetric: off
+    load: off
+
+  - name: LACP_Active_toNonNexus
+    mode: active
+    fast: on
+    graceful: off
+    suspend: on
+    symmetric: off
+    load: off
+
+  - name: Static_mode_on
+    mode: "off"
+    fast: off
+    graceful: off
+    suspend: off
+    symmetric: off
+    load: off
+
+
+L2:
+  - name: L2_VLAN_PortLocal
+    qinq: disabled
+    scope: portlocal

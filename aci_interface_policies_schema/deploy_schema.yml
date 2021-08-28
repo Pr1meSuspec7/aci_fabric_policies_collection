@@ -1,0 +1,58 @@
+---
+- name: "PLAY: CONFIGURATION INTERFACE POLICIES"
+  hosts: sandboxapic
+  connection: local
+  gather_facts: False
+  vars:
+    apic_info: &apic_info
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+  vars_files:
+    - vars_schema.yml
+
+  tasks:
+
+    - name: CREATING LINK LEVEL POLICIES
+      cisco.aci.aci_interface_policy_link_level:
+        <<: *apic_info
+        link_level_policy: "{{ item.name }}"
+        auto_negotiation: "{{ item.nego }}"
+        speed: "{{ item.speed }}"
+      loop: "{{ link_level }}"
+
+    - name: CREATING CDP POLICIES
+      cisco.aci.aci_interface_policy_cdp:
+        <<: *apic_info
+        cdp_policy: "{{ item.name }}"
+        admin_state: "{{ item.state }}"
+      loop: "{{ CDP }}"
+
+    - name: CREATING LLDP POLICIES
+      cisco.aci.aci_interface_policy_lldp:
+        <<: *apic_info
+        lldp_policy: "{{ item.name }}"
+        receive_state: "{{ item.rx_state }}"
+        transmit_state: "{{ item.tx_state }}"
+      loop: "{{ LLDP }}"
+
+    - name: CREATING PORT-CHANNEL POLICIES
+      cisco.aci.aci_interface_policy_port_channel:
+        <<: *apic_info
+        port_channel: "{{ item.name }}"
+        mode: "{{ item.mode }}"
+        fast_select: "{{ item.fast }}"
+        graceful_convergence: "{{ item.graceful }}"
+        suspend_individual: "{{ item.suspend }}"
+        symmetric_hash: "{{ item.symmetric }}"
+        load_defer: "{{ item.load }}"
+      loop: "{{ PO }}"
+
+    - name: CREATING L2 POLICIES
+      cisco.aci.aci_interface_policy_l2:
+        <<: *apic_info
+        l2_policy: "{{ item.name }}"
+        qinq: "{{ item.qinq }}"
+        vlan_scope: "{{ item.scope }}"
+      loop: "{{ L2 }}"

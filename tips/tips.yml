@@ -1,0 +1,13 @@
+#### example "when" conditional #####
+    - name: CREATING VPC GROUP
+      cisco.aci.aci_switch_policy_vpc_protection_group:
+        <<: *apic_info
+        protection_group: "{{ item.vPC_name }}"
+        protection_group_id: "{{ item.id_from }}"
+        switch_1_id: "{{ item.id_from }}"
+        switch_2_id: "{{ item.id_to }}"
+        state: present
+      loop: "{{ leaf_prof }}"
+      when: "'vPC_name' in item"
+
+

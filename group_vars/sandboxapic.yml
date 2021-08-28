@@ -2,6 +2,7 @@
 ### DEVNET sandbox
 username: "admin"
 password: "C1sco12345"
+#password: "!v3G@!4@Y"
 # my python venv
 # source ~/code/github/Pr1meSuspec7/workshop-ansible/py3_ansible_venv/bin/activate
 ansible_python_interpreter: $(which python)
