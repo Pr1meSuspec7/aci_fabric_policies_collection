@@ -1,0 +1,25 @@
+---
+- name: "PLAY: CONFIGURATION ACCESS POLICIES"
+  hosts: sandboxapic
+  connection: local
+  gather_facts: False
+  vars:
+    apic_info: &apic_info
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+  vars_files:
+    - vars_schema.yml
+
+  tasks:
+
+    - name: ADD FABRIC NODE
+      cisco.aci.aci_fabric_node:
+        <<: *apic_info
+        switch: "{{ item.name }}"
+        serial: "{{ item.sn }}"
+        node_id: "{{ item.node_id }}"
+        pod_id: "{{ item.pod_id }}"
+        role: "{{ item.role }}"
+      loop: "{{ NODES }}"

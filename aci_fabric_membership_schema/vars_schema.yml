@@ -1,0 +1,25 @@
+---
+NODES:
+  - name: SITE-SPINE-511
+    sn: FDO2425AAAA
+    node_id: 511
+    pod_id: 1
+    role: spine
+
+  - name: SITE-SPINE-512
+    sn: FDO2425BBBB
+    node_id: 512
+    pod_id: 1
+    role: spine
+
+  - name: SITE-LEAF-101
+    sn: FDO24250CJS
+    node_id: 101
+    pod_id: 1
+    role: leaf
+
+  - name: SITE-LEAF-102
+    sn: FDO24250CJT
+    node_id: 102
+    pod_id: 1
+    role: leaf
