@@ -1,0 +1,71 @@
+---
+- name: "PLAY: CONFIGURATION TENANTS"
+  hosts: sandboxapic
+  connection: local
+  gather_facts: False
+  vars:
+    apic_info: &apic_info
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+  vars_files:
+    - vars_schema.yml
+
+  tasks:
+
+    - name: "CREATING TENANTs"
+      cisco.aci.aci_tenant:
+        <<: *apic_info
+        tenant: "{{ item.name }}"
+        description: 
+        state: present
+      loop: "{{ tnt }}"
+
+
+    - name: "CREATING VRFs"
+      cisco.aci.aci_vrf:
+        <<: *apic_info
+        tenant: "{{ item.0.name }}"
+        vrf: "{{ item.1.name }}"
+      loop: "{{ tnt | subelements('vrf') }}"
+
+
+    - name: "CREATING BRIDGE DOMAIN"
+      cisco.aci.aci_bd:
+        <<: *apic_info
+        tenant: "{{ item.0.name }}"
+        vrf: "{{ item.1.name }}"
+        bd: "{{ item.1.bd }}"
+        enable_routing: "{{ item.1.unicast }}"
+      loop: "{{ tnt | subelements('vrf') }}"
+      when: "'bd' in item.1"
+
+
+    - name: "CREATING SUBNET"
+      cisco.aci.aci_bd_subnet:
+        <<: *apic_info
+        tenant: "{{ item.0.name }}"
+        scope: "{{ item.1.scope }}"
+        bd: "{{ item.1.bd }}"
+        gateway: "{{ item.1.gw }}"
+        mask: "{{ item.1.mask }}"
+      loop: "{{ tnt | subelements('vrf') }}"
+      when: "'bd' in item.1"
+
+
+    - name: "CREATING L3OUT"
+      cisco.aci.aci_l3out:
+        <<: *apic_info
+        tenant: "{{ item.0.name }}"
+        vrf: "{{ item.1.name }}"
+        name: "{{ item.1.l3_name }}"
+        domain: "{{ item.1.l3_domain }}"
+        l3protocol: "{{ item.1.l3_protocol }}"
+        route_control: export
+      loop: "{{ tnt | subelements('vrf') }}"
+      when: "'l3_name' in item.1"
+
+#    - debug:
+#        msg: "{{ item }}"
+#      loop: "{{ tnt }}"

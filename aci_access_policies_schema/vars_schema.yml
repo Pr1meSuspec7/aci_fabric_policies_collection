@@ -15,7 +15,7 @@ AAEP:
         mode: static
         range_from: 3800
         range_to: 3900
-# to add vlan range you can replicate this block
+# to add vlan range in this AAEP you can replicate this block
 #      - name: L3Out_Dom
 #        type: l3dom
 #        pool: L3Out_StaticPool

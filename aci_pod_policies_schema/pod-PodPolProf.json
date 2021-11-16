@@ -1,0 +1,31 @@
+{
+    "totalCount": "1",
+    "imdata": [
+        {
+            "fabricPodS": {
+                "attributes": {
+                    "annotation": "",
+                    "descr": "",
+                    "dn": "uni/fabric/podprof-default/pods-default-typ-ALL",
+                    "name": "default",
+                    "nameAlias": "",
+                    "ownerKey": "",
+                    "ownerTag": "",
+                    "type": "ALL",
+                    "userdom": "all"
+                },
+                "children": [
+                    {
+                        "fabricRsPodPGrp": {
+                            "attributes": {
+                                "annotation": "",
+                                "tDn": "uni/fabric/funcprof/podpgrp-default",
+                                "userdom": ":all:"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

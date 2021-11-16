@@ -1,0 +1,24 @@
+---
+#tnt:
+#  - name: Ansible_tnt_1
+#    vrf:
+#      - name: vrf_1
+#        bd: bd_10
+#        unicast: yes
+#        scope: shared
+#        gw: "192.168.10.1"
+#        mask: 24
+#        l3_name: TO-PA-EDC-CW-TNT-DR-COREDR-CWR_L3Out
+#        l3_domain: L3Out_Dom
+#        l3_protocol: static
+
+
+tnt:
+  - name: COREDC-CWR
+    vrf:
+      - name: COREDR-CWR_VRF
+        l3_name: TO-PA-EDC-CW-TNT-DR-COREDR-CWR_L3Out
+        l3_domain: L3Out_Dom
+        l3_protocol: static
+
+#------------------------------------------

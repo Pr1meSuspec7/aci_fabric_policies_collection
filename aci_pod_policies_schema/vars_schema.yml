@@ -1,0 +1,4 @@
+---
+datetime:
+  name: NTP_Pol
+  server: 1.1.1.1

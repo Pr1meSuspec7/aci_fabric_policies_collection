@@ -1,0 +1,37 @@
+---
+- name: "PLAY: CONFIGURATION POD POLICIES"
+  hosts: sandboxapic
+  connection: local
+  gather_facts: False
+  vars:
+    apic_info: &apic_info
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      validate_certs: no
+  vars_files:
+    - vars_schema.yml
+
+  tasks:
+
+    - name: CREATING DATE AND TIME POLICY
+      cisco.aci.aci_rest:
+        <<: *apic_info
+        method: post
+        path: /api/mo/uni.json
+        content: "{{ lookup('template', 'pod-date-time-PolGrp.json') }}"
+
+    - name: CREATING POD POLICY GROUP
+      cisco.aci.aci_rest:
+        <<: *apic_info
+        method: post
+        path: /api/mo/uni.json
+        content: "{{ lookup('template', 'pod-PodPolGrp.json') }}"
+
+
+    - name: CREATING POD POLICY PROFILE
+      cisco.aci.aci_rest:
+        <<: *apic_info
+        method: post
+        path: /api/mo/uni.json
+        content: "{{ lookup('template', 'pod-PodPolProf.json') }}"

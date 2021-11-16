@@ -1,0 +1,50 @@
+{
+    "totalCount": "1",
+    "imdata": [
+        {
+            "datetimePol": {
+                "attributes": {
+                    "StratumValue": "8",
+                    "adminSt": "enabled",
+                    "annotation": "",
+                    "authSt": "disabled",
+                    "descr": "",
+                    "dn": "uni/fabric/time-{{ datetime.name }}",
+                    "masterMode": "disabled",
+                    "name": "{{ datetime.name }}",
+                    "nameAlias": "",
+                    "ownerKey": "",
+                    "ownerTag": "",
+                    "serverState": "disabled"
+                },
+                "children": [
+                    {
+                        "datetimeNtpProv": {
+                            "attributes": {
+                                "annotation": "",
+                                "descr": "",
+                                "keyId": "0",
+                                "maxPoll": "6",
+                                "minPoll": "4",
+                                "name": "{{ datetime.server }}",
+                                "nameAlias": "",
+                                "preferred": "yes",
+                                "trueChimer": "disabled"
+                            },
+                            "children": [
+                                {
+                                    "datetimeRsNtpProvToEpg": {
+                                        "attributes": {
+                                            "annotation": "",
+                                            "tDn": "uni/tn-mgmt/mgmtp-default/oob-default"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

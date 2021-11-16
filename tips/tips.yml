@@ -1,4 +1,5 @@
-#### example "when" conditional #####
+# example "when" conditional
+# check if key exist in dict
     - name: CREATING VPC GROUP
       cisco.aci.aci_switch_policy_vpc_protection_group:
         <<: *apic_info
