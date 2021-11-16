@@ -19,14 +19,14 @@
         <<: *apic_info
         method: post
         path: /api/mo/uni.json
-        content: "{{ lookup('template', 'pod-date-time-PolGrp.json') }}"
+        content: "{{ lookup('template', './json/pod-date-time-PolGrp.json') }}"
 
     - name: CREATING POD POLICY GROUP
       cisco.aci.aci_rest:
         <<: *apic_info
         method: post
         path: /api/mo/uni.json
-        content: "{{ lookup('template', 'pod-PodPolGrp.json') }}"
+        content: "{{ lookup('template', './json/pod-PodPolGrp.json') }}"
 
 
     - name: CREATING POD POLICY PROFILE
@@ -34,4 +34,4 @@
         <<: *apic_info
         method: post
         path: /api/mo/uni.json
-        content: "{{ lookup('template', 'pod-PodPolProf.json') }}"
+        content: "{{ lookup('template', './json/pod-PodPolProf.json') }}"
